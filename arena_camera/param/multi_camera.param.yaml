@@ -1,0 +1,31 @@
+/**:
+  ros__parameters:
+    camera_names: [ "camera_1","camera_2","camera_3" ]
+    camera_1:
+      frame_id: "camera_top/camera_link"
+      pixel_format: bgr8
+      serial_no: 210900910
+      fps: 15
+      width: 1440
+      height: 930
+      flip_enable: true
+      camera_info_url: "/home/zeys/projects/main_autoware/autoware/src/sensor_component/external/arena_camera/config/camera0_info.yaml"
+    camera_2:
+      frame_id: "camera_left/camera_link"
+      pixel_format: bgr8
+      serial_no: 210900347
+      fps: 10
+      width: 1440
+      height: 930
+      flip_enable: true
+      camera_info_url: "/home/zeys/projects/main_autoware/autoware/src/sensor_component/external/arena_camera/config/camera1_info.yaml"
+    camera_3:
+      frame_id: "camera_right/camera_link"
+      pixel_format: bgr8
+      serial_no: 210800157
+      fps: 10
+      width: 1440
+      height: 930
+      flip_enable: false
+      camera_info_url: "/home/zeys/projects/main_autoware/autoware/src/sensor_component/external/arena_camera/config/camera2_info.yaml"
+
