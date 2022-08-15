@@ -49,10 +49,11 @@ more than one camera work on this param file :
    With following "Add">"By topic" section.
 
    8.2 Set your "Fixed Frame" as "camera_top/camera_link".
-   8.3 You can check and change frame id for every camera in <your_ws>/src/arena_camera/param/multi_camera.param.yaml
 
-   8.3 Set your "Reliability Policy" to "Best Efford".  (Best efford works in
-   UDP, Reliable works in TCP/IP)
+    8.3 You can check and change frame id for every camera in <your_ws>/src/arena_camera/param/multi_camera.param.yaml
 
-   8.4 Be sure that visibility button checked.
+    8.4 Set your "Reliability Policy" to "Best Efford".  (Best efford works in
+    UDP, Reliable works in TCP/IP)
+
+    8.5 Be sure that visibility button checked.
 
