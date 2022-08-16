@@ -11,9 +11,10 @@ Lucid Vision Labs' ArenaSDK.
 1. Download ArenaSDK from [here](https://thinklucid.com/downloads-hub/).
 2. Install ArenaSDK.
 3. Before connecting to the camera you need to set your IP address, for this go to the location where you download ArenaSDK.
+
    For example cd /<your_location>/ArenaSDK_Linux_x64/precompiledExamples and at this location run ./IpConfigUtility
    /list
-   to see cameras IP adresses.Your IP address can be set to 169.254.0.1.
+   to see camera's IP adresses.Your IP address can be set to 169.254.0.1.
 
 4. Clone this driver to <your_workspace>/src/.
 
@@ -24,8 +25,9 @@ Lucid Vision Labs' ArenaSDK.
    for each product.
 
 If you have only one camera work on this param file :
-<your_ws>/src/arena_camera/param/lucid_vision_camera.param.yaml If you have
-more than one camera work on this param file :
+<your_ws>/src/arena_camera/param/lucid_vision_camera.param.yaml
+
+If you have  more than one camera work on this param file :
 <your_ws>/src/arena_camera/param/multi_camera.param.yaml
 
 6. Build your code with following command.
