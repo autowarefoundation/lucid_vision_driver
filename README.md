@@ -24,11 +24,11 @@ Lucid Vision Labs' ArenaSDK.
    (Serial number writes on the box of the camera) Serial number is different
    for each product.
 
-If you have only one camera work on this param file :
-<your_ws>/src/arena_camera/param/lucid_vision_camera.param.yaml
+   If you have only one camera work on this param file :
+   <your_ws>/src/arena_camera/param/lucid_vision_camera.param.yaml
 
-If you have  more than one camera work on this param file :
-<your_ws>/src/arena_camera/param/multi_camera.param.yaml
+   If you have  more than one camera work on this param file :
+   <your_ws>/src/arena_camera/param/multi_camera.param.yaml
 
 6. Build your code with following command.
 
