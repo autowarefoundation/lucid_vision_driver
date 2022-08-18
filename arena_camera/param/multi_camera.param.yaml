@@ -3,12 +3,17 @@
     camera_names: [ "camera_1","camera_2","camera_3" ]
     camera_1:
       frame_id: "camera_top/camera_link"
+#     bgr8,rgb
       pixel_format: bgr8
+#    unique for every camera
       serial_no: 210900910
+#    number of images per second
       fps: 15
+#      camera size
       width: 1440
       height: 930
       flip_enable: true
+ #      camera config file
       camera_info_url: "/home/zeys/projects/main_autoware/autoware/src/sensor_component/external/arena_camera/config/camera0_info.yaml"
     camera_2:
       frame_id: "camera_left/camera_link"

@@ -1,9 +1,7 @@
 **arena_camera**
 
 arena_camera node publishes image data collected from Lucid Vision Labs Triton
-GigE cameras in /lucid_vision/camera_"X"/image_raw topic as a ROS message(
-sensor_msgs/Image). This node can connect to multiple camera devices discovered
-by Lucid Vision Labs' ArenaSDK. In order to use this node, you need to install
+GigE cameras in ***/lucid_vision/camera_"X"/image_raw*** and ***/lucid_vision/camera_"X"/camera_info***topics as a ROS message(sensor_msgs/Image). This node can connect to multiple camera devices discovered by Lucid Vision Labs' ArenaSDK. In order to use this node, you need to install
 Lucid Vision Labs' ArenaSDK.
 
 ### Installation
