@@ -14,7 +14,7 @@
       height: 930
       flip_enable: true
 #      camera parameter file
-      camera_info_url: "/home/zeys/projects/main_autoware/autoware/src/sensor_component/external/arena_camera/config/camera0_info.yaml"
+      camera_info_url: "file:///home/volt/projects/volt_drivers_ws/src/arena_camera/config/camera_front_quarter.yaml"
     camera_2:
       frame_id: "camera_left/camera_link"
       pixel_format: bgr8
@@ -23,7 +23,7 @@
       width: 1440
       height: 930
       flip_enable: true
-      camera_info_url: "/home/zeys/projects/main_autoware/autoware/src/sensor_component/external/arena_camera/config/camera1_info.yaml"
+      camera_info_url:  "file:///home/volt/projects/volt_drivers_ws/src/arena_camera/config/camera_left_quarter.yaml"
     camera_3:
       frame_id: "camera_right/camera_link"
       pixel_format: bgr8
@@ -32,5 +32,5 @@
       width: 1440
       height: 930
       flip_enable: false
-      camera_info_url: "/home/zeys/projects/main_autoware/autoware/src/sensor_component/external/arena_camera/config/camera2_info.yaml"
+      camera_info_url: "file:///home/volt/projects/volt_drivers_ws/src/arena_camera/config/camera_right_quarter.yaml"
 
