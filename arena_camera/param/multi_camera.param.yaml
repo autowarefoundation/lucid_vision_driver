@@ -13,7 +13,7 @@
       width: 1440
       height: 930
       flip_enable: true
- #      camera config file
+#      camera parameter file
       camera_info_url: "/home/zeys/projects/main_autoware/autoware/src/sensor_component/external/arena_camera/config/camera0_info.yaml"
     camera_2:
       frame_id: "camera_left/camera_link"
