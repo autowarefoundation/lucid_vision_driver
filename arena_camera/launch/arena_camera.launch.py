@@ -16,7 +16,6 @@ def generate_launch_description():
             package='arena_camera',
             executable='arena_camera_node_exe',
             parameters=[arena_camera_node_prefix_param_file],
-            # to see c++ codes
             output='screen'
 
         )
