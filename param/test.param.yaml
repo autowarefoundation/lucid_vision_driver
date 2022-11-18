@@ -1,0 +1,20 @@
+/**:
+  ros__parameters:
+    camera_name: "camera_1"
+    frame_id: "camera_top/camera_link"
+    pixel_format: bgr8
+    serial_no: 220300119
+    camera_info_url: "file:///home/kaan/projects/autoware_arena_ws/src/lucid_vision_driver/config/test.yaml"
+    fps: 15
+    horizontal_binning: 4 # resize horizontal resolution/horizontal_binning
+    vertical_binning: 4 # resize horizontal resolution/vertical_binning
+    use_default_device_settings: true
+    # if you use_default_device_settings: true, the following settings are ignored.
+    # ROS driver will use the default device settings of the camera.
+    exposure_auto: true
+    exposure_target: 187
+    gain_auto: true
+    gain_target: 1
+    gamma_target: 1.0
+
+
