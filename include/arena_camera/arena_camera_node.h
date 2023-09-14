@@ -21,9 +21,12 @@
 #include "arena_cameras_handler.h"
 #include "rcl_interfaces/msg/set_parameters_result.hpp"
 
+#include <image_transport/image_transport.hpp>
 #include <camera_info_manager/camera_info_manager.hpp>
+#include <rclcpp/qos.hpp>
 #include <rclcpp/publisher.hpp>
 #include <rclcpp/rclcpp.hpp>
+
 
 #include <sensor_msgs/msg/camera_info.hpp>
 #include <sensor_msgs/msg/compressed_image.hpp>
@@ -34,7 +37,7 @@
 
 #include <chrono>
 #include <thread>
-
+#include <memory>
 class ArenaCameraNode : public ::rclcpp::Node
 {
 public:
@@ -59,13 +62,10 @@ private:
 
   OnSetParametersCallbackHandle::SharedPtr callback_handle_;
 
-  using PublisherT = ::rclcpp::Publisher<::sensor_msgs::msg::Image>;
-  using CameraInfoPublisherT = ::rclcpp::Publisher<::sensor_msgs::msg::CameraInfo>;
 
-  PublisherT::SharedPtr m_publisher{};
-  CameraInfoPublisherT::SharedPtr m_camera_info_publisher{};
-
+  image_transport::CameraPublisher m_camera_pub_;
   std::shared_ptr<camera_info_manager::CameraInfoManager> m_camera_info{};
+
   image_geometry::PinholeCameraModel m_camera_model;
   std::string m_frame_id;
 };

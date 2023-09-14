@@ -35,19 +35,11 @@ ArenaCameraNode::ArenaCameraNode(rclcpp::NodeOptions node_options)
   m_arena_camera_handler = std::make_unique<ArenaCamerasHandler>();
   m_arena_camera_handler->create_camera_from_settings(camera_settings);
   this->m_frame_id = camera_settings.get_frame_id();
-
+  m_camera_pub_ = image_transport::create_camera_publisher(this, camera_settings.get_camera_name() + "image_raw", rclcpp::SensorDataQoS().get_rmw_qos_profile());
   init_camera_info(camera_settings.get_camera_name(), camera_settings.get_url_camera_info());
-  m_publisher = this->create_publisher<sensor_msgs::msg::Image>(
-    create_camera_topic_name(camera_settings.get_camera_name()) + "/image",
-    rclcpp::SensorDataQoS());
-  m_camera_info_publisher = this->create_publisher<sensor_msgs::msg::CameraInfo>(
-    create_camera_topic_name(camera_settings.get_camera_name()) + "/camera_info",
-    rclcpp::SensorDataQoS());
-
   m_arena_camera_handler->set_image_callback(
     std::bind(&ArenaCameraNode::publish_image, this, std::placeholders::_1, std::placeholders::_2));
   m_arena_camera_handler->start_stream();
-
   callback_handle_ = this->add_on_set_parameters_callback(
     std::bind(&ArenaCameraNode::parameters_callback, this, std::placeholders::_1));
 }
@@ -99,18 +91,17 @@ void ArenaCameraNode::publish_image(std::uint32_t camera_index, const cv::Mat & 
       cv_bridge::CvImage(header, sensor_msgs::image_encodings::BGR8, image);
     (void)img_bridge;
     img_bridge.toImageMsg(img_msg);
-
   } catch (...) {
     throw std::runtime_error("Runtime error, publish_image.");
+  }  
+  auto ci = std::make_unique<sensor_msgs::msg::CameraInfo>(m_camera_info->getCameraInfo());
+  if( !((ci->width == img_msg.width) &&(ci->height == img_msg.height)))
+  {
+    ci->width = img_msg.width;
+    ci->height = img_msg.height;
   }
-
-  m_publisher->publish(std::move(img_msg));
-
-  if (m_camera_info_publisher) {
-    auto ci = std::make_unique<sensor_msgs::msg::CameraInfo>(m_camera_info->getCameraInfo());
-    ci->header = img_msg.header;
-    m_camera_info_publisher->publish(std::move(ci));
-  }
+  ci->header = img_msg.header;
+  m_camera_pub_.publish( img_msg, *(ci));
 }
 
 void ArenaCameraNode::init_camera_info(std::string camera_name, std::string camera_info_url)
@@ -162,7 +153,6 @@ rcl_interfaces::msg::SetParametersResult ArenaCameraNode::parameters_callback(
         print_status(param);
       }
     }
-
     if (param.get_name() == "gain_auto") {
       if (param.get_type() == rclcpp::ParameterType::PARAMETER_BOOL) {
         m_arena_camera_handler->set_auto_gain(param.as_bool());
