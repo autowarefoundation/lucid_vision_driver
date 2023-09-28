@@ -51,7 +51,7 @@ def generate_launch_description():
         executable="component_container",
         composable_node_descriptions=[
             ComposableNode(
-                package="arena_camera",
+                package="lucid_vision_driver",
                 plugin="ArenaCameraNode",
                 name="arena_camera_node_right",
                 parameters=[{"camera_name": camera_yaml_param['camera_name'],
