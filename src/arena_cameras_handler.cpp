@@ -41,7 +41,8 @@ void ArenaCamerasHandler::create_camera_from_settings(CameraSetting & camera_set
 
   if (it != devicesInfos.end()) {
     m_device = m_p_system->CreateDevice(*it);
-
+    m_enable_rectifying = camera_settings.get_enable_rectifying();
+    m_enable_compressing = camera_settings.get_enable_compressing();
     m_use_default_device_settings = camera_settings.get_use_default_device_settings();
     // Prepare camera settings
     this->set_fps(camera_settings.get_fps());
@@ -221,6 +222,22 @@ void ArenaCamerasHandler::set_gamma_value(float gamma_value)
     std::cerr << "Exception occurred during gamma value handling: " << e.GetDescription()
               << std::endl;
   }
+}
+void ArenaCamerasHandler::set_enable_rectifying(bool enable_rectifying)
+{
+  this->m_enable_rectifying = enable_rectifying;
+}
+bool ArenaCamerasHandler::get_enable_rectifying()
+{
+  return m_enable_rectifying;
+}
+void ArenaCamerasHandler::set_enable_compressing(bool enable_compressing)
+{
+  this->m_enable_compressing = enable_compressing;
+}
+bool ArenaCamerasHandler::get_enable_compressing()
+{
+  return m_enable_compressing;
 }
 void ArenaCamerasHandler::set_use_default_device_settings(bool use_default_device_settings)
 {

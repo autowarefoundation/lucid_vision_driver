@@ -68,6 +68,8 @@ def generate_launch_description():
                              "gain_auto": camera_yaml_param['gain_auto'],
                              "gain_target": camera_yaml_param['gain_target'],
                              "gamma_target": camera_yaml_param['gamma_target'],
+                             "enable_compressing": camera_yaml_param['enable_compressing'],
+                             "enable_rectifying": camera_yaml_param['enable_rectifying'],
                              }],
                 remappings=[
                 ],
