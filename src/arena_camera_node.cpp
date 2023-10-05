@@ -40,6 +40,21 @@ ArenaCameraNode::ArenaCameraNode(rclcpp::NodeOptions node_options)
   m_publisher = this->create_publisher<sensor_msgs::msg::Image>(
     create_camera_topic_name(camera_settings.get_camera_name()) + "/image",
     rclcpp::SensorDataQoS());
+
+  if (camera_settings.get_enable_rectifying())
+  {
+    m_rect_publisher = this->create_publisher<sensor_msgs::msg::Image>(
+      create_camera_topic_name(camera_settings.get_camera_name()) + "/image_rect",
+      rclcpp::SensorDataQoS());
+  }
+
+  if(camera_settings.get_enable_compressing())
+  {
+    m_compressed_publisher = this->create_publisher<sensor_msgs::msg::CompressedImage>(
+      create_camera_topic_name(camera_settings.get_camera_name()) + "/image_compressed",
+      rclcpp::SensorDataQoS());
+  }
+
   m_camera_info_publisher = this->create_publisher<sensor_msgs::msg::CameraInfo>(
     create_camera_topic_name(camera_settings.get_camera_name()) + "/camera_info",
     rclcpp::SensorDataQoS());
@@ -82,6 +97,8 @@ CameraSetting ArenaCameraNode::read_camera_settings()
     declare_parameter<bool>("gain_auto"),
     static_cast<float>(declare_parameter<int64_t>("gain_target", gain_descriptor)),
     declare_parameter<float>("gamma_target"),
+    declare_parameter<bool>("enable_rectifying"),
+    declare_parameter<bool>("enable_compressing"),
     declare_parameter<bool>("use_default_device_settings"));
 
   return camera_setting;
@@ -102,6 +119,40 @@ void ArenaCameraNode::publish_image(std::uint32_t camera_index, const cv::Mat & 
 
   } catch (...) {
     throw std::runtime_error("Runtime error, publish_image.");
+  }
+
+  if(m_arena_camera_handler->get_enable_rectifying()){
+    sensor_msgs::msg::Image img_rect_msg;
+    try {
+      cv_bridge::CvImage img_bridge_rect =
+        cv_bridge::CvImage(header, sensor_msgs::image_encodings::BGR8);
+      (void)img_bridge_rect;
+
+      cv_bridge::CvImagePtr cv_img_raw = cv_bridge::toCvCopy(img_msg, img_msg.encoding);
+      m_camera_model.fromCameraInfo(m_camera_info->getCameraInfo());
+      m_camera_model.rectifyImage(cv_img_raw->image, img_bridge_rect.image);
+
+      img_bridge_rect.toImageMsg(img_rect_msg);
+    } catch (...) {
+      throw std::runtime_error("Runtime error, publish_rectified_image.");
+    }
+
+    m_rect_publisher->publish(std::move(img_rect_msg));
+  }
+
+  if(m_arena_camera_handler->get_enable_compressing()){
+    sensor_msgs::msg::CompressedImage img_compressed_msg;
+    try {
+      cv_bridge::CvImage img_bridge_compressed =
+        cv_bridge::CvImage(header, sensor_msgs::image_encodings::BGR8, image);
+      (void)img_bridge_compressed;
+
+      img_bridge_compressed.toCompressedImageMsg(img_compressed_msg);
+    } catch (...) {
+      throw std::runtime_error("Runtime error, publish_compressed_image.");
+    }
+
+    m_compressed_publisher->publish(std::move(img_compressed_msg));
   }
 
   m_publisher->publish(std::move(img_msg));
@@ -149,6 +200,22 @@ rcl_interfaces::msg::SetParametersResult ArenaCameraNode::parameters_callback(
     if (param.get_name() == "exposure_auto") {
       if (param.get_type() == rclcpp::ParameterType::PARAMETER_BOOL) {
         m_arena_camera_handler->set_auto_exposure(param.as_bool());
+        result.successful = true;
+        print_status(param);
+      }
+    }
+
+    if (param.get_name() == "enable_rectifying") {
+      if (param.get_type() == rclcpp::ParameterType::PARAMETER_BOOL) {
+        m_arena_camera_handler->set_enable_rectifying(param.as_bool());
+        result.successful = true;
+        print_status(param);
+      }
+    }
+
+    if (param.get_name() == "enable_compressing") {
+      if (param.get_type() == rclcpp::ParameterType::PARAMETER_BOOL) {
+        m_arena_camera_handler->set_enable_compressing(param.as_bool());
         result.successful = true;
         print_status(param);
       }

@@ -27,7 +27,7 @@ public:
     const std::string & camera_name, const std::string & frame_id, const std::string & pixel_format,
     uint32_t serial_no, uint32_t fps, uint32_t horizontal_binning, uint32_t vertical_binning,
     const std::string & url_camera_info, bool exposure_auto, float exposure_value, bool gain_auto,
-    float gain_value, float gamma_value, bool use_default_device_settings)
+    float gain_value, float gamma_value, bool enable_rectifying, bool enable_compressing, bool use_default_device_settings)
   : m_camera_name{camera_name},
     m_frame_id{frame_id},
     m_pixel_format{pixel_format},
@@ -41,6 +41,8 @@ public:
     m_gain_auto_enable{gain_auto},
     m_auto_gain_value{gain_value},
     m_gamma_value{gamma_value},
+    m_enable_rectifying{enable_rectifying},
+    m_enable_compressing{enable_compressing},
     m_use_default_device_settings{use_default_device_settings}
   {
     std::cout << "Camera readed from yaml file. Camera Name:" << m_camera_name
@@ -75,6 +77,18 @@ public:
   float get_gamma_value() { return m_gamma_value; }
   void set_gamma_value(float gamma_value) { m_gamma_value = gamma_value; }
 
+  bool get_enable_rectifying() { return m_enable_rectifying; }
+  void set_enable_rectifying(bool enable_rectifying)
+  {
+    m_enable_rectifying = enable_rectifying;
+  }
+
+  bool get_enable_compressing() { return m_enable_compressing; }
+  void set_enable_compressing(bool enable_compressing)
+  {
+    m_enable_compressing = enable_compressing;
+  }
+
   bool get_use_default_device_settings() { return m_use_default_device_settings; }
   void set_use_default_device_settings(bool use_default_device_settings)
   {
@@ -95,6 +109,8 @@ private:
   bool m_gain_auto_enable;
   float m_auto_gain_value;  // Only relevant if m_gain_auto_enable=true
   float m_gamma_value;
+  bool m_enable_rectifying;
+  bool m_enable_compressing;
   bool m_use_default_device_settings;
 };
 

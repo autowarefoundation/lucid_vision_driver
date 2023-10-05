@@ -54,6 +54,14 @@ public:
 
   void set_gamma_value(float gamma_value);
 
+  void set_enable_rectifying(bool enable_rectifying);
+
+  bool get_enable_rectifying();
+
+  void set_enable_compressing(bool enable_compressing);
+
+  bool get_enable_compressing();
+
   void set_use_default_device_settings(bool use_default_device_settings);
 
   bool get_use_default_device_settings();
@@ -65,6 +73,8 @@ private:
 
   Arena::IDevice * m_device;
 
+  bool m_enable_rectifying;
+  bool m_enable_compressing;
   bool m_use_default_device_settings;
 };
 
