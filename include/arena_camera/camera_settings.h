@@ -27,7 +27,8 @@ public:
     const std::string & camera_name, const std::string & frame_id, const std::string & pixel_format,
     uint32_t serial_no, uint32_t fps, uint32_t horizontal_binning, uint32_t vertical_binning,
     const std::string & url_camera_info, bool exposure_auto, float exposure_value, bool gain_auto,
-    float gain_value, float gamma_value, bool enable_rectifying, bool enable_compressing, bool use_default_device_settings)
+    float gain_value, float gamma_value, bool enable_rectifying, bool enable_compressing, bool use_default_device_settings,
+    bool image_horizontal_flip, bool image_vertical_flip)
   : m_camera_name{camera_name},
     m_frame_id{frame_id},
     m_pixel_format{pixel_format},
@@ -43,7 +44,9 @@ public:
     m_gamma_value{gamma_value},
     m_enable_rectifying{enable_rectifying},
     m_enable_compressing{enable_compressing},
-    m_use_default_device_settings{use_default_device_settings}
+    m_use_default_device_settings{use_default_device_settings},
+    m_image_horizontal_flip{image_horizontal_flip},
+    m_image_vertical_flip{image_vertical_flip}
   {
     std::cout << "Camera readed from yaml file. Camera Name:" << m_camera_name
               << " Frame id:" << m_frame_id << " Serial no:" << m_serial_no
@@ -94,6 +97,16 @@ public:
   {
     m_use_default_device_settings = use_default_device_settings;
   }
+  bool get_image_horizontal_flip() { return m_image_horizontal_flip; }
+  void set_image_horizontal_flip(bool image_horizontal_flip)
+  {
+    m_image_horizontal_flip = image_horizontal_flip;
+  }
+  bool get_image_vertical_flip() { return m_image_vertical_flip; }
+  void set_image_vertical_flip(bool image_vertical_flip)
+  {
+    m_image_vertical_flip = image_vertical_flip;
+  }
 
 private:
   std::string m_url_camera_info;
@@ -112,6 +125,8 @@ private:
   bool m_enable_rectifying;
   bool m_enable_compressing;
   bool m_use_default_device_settings;
+  bool m_image_horizontal_flip;
+  bool m_image_vertical_flip;
 };
 
 #endif  // BUILD_CAMERA_SETTINGS_H

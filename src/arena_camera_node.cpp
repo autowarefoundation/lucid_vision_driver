@@ -99,7 +99,10 @@ CameraSetting ArenaCameraNode::read_camera_settings()
     declare_parameter<float>("gamma_target"),
     declare_parameter<bool>("enable_rectifying"),
     declare_parameter<bool>("enable_compressing"),
-    declare_parameter<bool>("use_default_device_settings"));
+    declare_parameter<bool>("use_default_device_settings"),
+    declare_parameter<bool>("image_horizontal_flip"),
+    declare_parameter<bool>("image_vertical_flip")
+    );
 
   return camera_setting;
 }
