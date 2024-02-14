@@ -53,6 +53,8 @@ void ArenaCamerasHandler::create_camera_from_settings(CameraSetting & camera_set
       this->set_auto_gain(camera_settings.get_enable_exposure_auto());
       this->set_gain_value(camera_settings.get_auto_gain_value());
       this->set_gamma_value(camera_settings.get_gamma_value());
+      this->set_reverse_image_y(camera_settings.get_image_horizontal_flip());
+      this->set_reverse_image_x(camera_settings.get_image_vertical_flip());
     }
 
     m_cameras = new ArenaCamera(m_device, camera_settings);
@@ -246,4 +248,43 @@ void ArenaCamerasHandler::set_use_default_device_settings(bool use_default_devic
 bool ArenaCamerasHandler::get_use_default_device_settings()
 {
   return m_use_default_device_settings;
+}
+void ArenaCamerasHandler::set_reverse_image_y(bool image_horizontal_flip)
+{
+
+  if(m_use_default_device_settings){
+    RCLCPP_WARN(
+      rclcpp::get_logger("ARENA_CAMERA_HANDLER"),
+      "Not possible to set horizontal flip. Using default device settings.");
+    return;
+  }
+
+  try {
+    GenApi::CBooleanPtr pHorizontalFlip = m_device->GetNodeMap()->GetNode("ReverseY");
+    if (GenApi::IsWritable(pHorizontalFlip)) {
+      pHorizontalFlip->SetValue(image_horizontal_flip);
+    }
+  } catch (const GenICam::GenericException & e) {
+    std::cerr << "Exception occurred during ReverseY value handling: " << e.GetDescription()
+              << std::endl;
+  }
+}
+
+void ArenaCamerasHandler::set_reverse_image_x(bool image_vertical_flip)
+{
+  if (m_use_default_device_settings) {
+    RCLCPP_WARN(
+      rclcpp::get_logger("ARENA_CAMERA_HANDLER"),
+      "Not possible to set vertical flip. Using default device settings.");
+    return;
+  }
+  try {
+    GenApi::CBooleanPtr pVerticalFlip = m_device->GetNodeMap()->GetNode("ReverseX");
+    if (GenApi::IsWritable(pVerticalFlip)) {
+      pVerticalFlip->SetValue(image_vertical_flip);
+    }
+  } catch (const GenICam::GenericException & e) {
+    std::cerr << "Exception occurred during ReverseX value handling: " << e.GetDescription()
+              << std::endl;
+  }
 }

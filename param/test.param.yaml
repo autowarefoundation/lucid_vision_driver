@@ -18,5 +18,7 @@
     gain_auto: true
     gain_target: 1
     gamma_target: 1.0
+    image_horizontal_flip: false
+    image_vertical_flip: false
 
 

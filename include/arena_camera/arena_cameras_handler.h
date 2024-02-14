@@ -66,6 +66,10 @@ public:
 
   bool get_use_default_device_settings();
 
+  void set_reverse_image_y(bool image_horizontal_flip);
+
+  void set_reverse_image_x(bool image_vertical_flip);
+
 private:
   ArenaCamera * m_cameras;
 
